@@ -1,9 +1,9 @@
 #!/bin/bash
 # Job name:
-#SBATCH --job-name=
+#SBATCH --job-name=stl10firstTest
 #
 # Account:
-#SBATCH --account=stl10firstTest
+#SBATCH --account=fc_psychvis
 #
 # Partition:
 #SBATCH --partition=savio2_gpu
