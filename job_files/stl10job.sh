@@ -29,4 +29,4 @@
 ## Command(s) to run (example):
 echo "Running on host"
 nvidia-smi
-python 
+python run.py -data ./datasets --dataset-name stl10 --log-every-n-steps 100 --epochs 100 
