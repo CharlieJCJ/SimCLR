@@ -1,4 +1,5 @@
 import argparse
+from re import M
 import torch
 import torch.backends.cudnn as cudnn
 from torchvision import models
@@ -76,6 +77,10 @@ def main():
         num_workers=args.workers, pin_memory=True, drop_last=True)
 
     model = ResNetSimCLR(base_model=args.arch, out_dim=args.out_dim)
+    
+    # for debugging purposes
+    print(model)
+    print(model.parameters())
 
     optimizer = torch.optim.Adam(model.parameters(), args.lr, weight_decay=args.weight_decay)
 

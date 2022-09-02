@@ -13,7 +13,6 @@ torch.manual_seed(0)
 
 
 class SimCLR(object):
-
     def __init__(self, *args, **kwargs):
         self.args = kwargs['args']
         self.model = kwargs['model'].to(self.args.device)
@@ -22,7 +21,7 @@ class SimCLR(object):
         self.writer = SummaryWriter()
         logging.basicConfig(filename=os.path.join(self.writer.log_dir, 'training.log'), level=logging.DEBUG)
         self.criterion = torch.nn.CrossEntropyLoss().to(self.args.device)
-
+    # InfoNCE loss function
     def info_nce_loss(self, features):
 
         labels = torch.cat([torch.arange(self.args.batch_size) for i in range(self.args.n_views)], dim=0)
@@ -53,7 +52,7 @@ class SimCLR(object):
 
         logits = logits / self.args.temperature
         return logits, labels
-
+    # train function
     def train(self, train_loader):
 
         scaler = GradScaler(enabled=self.args.fp16_precision)
@@ -67,8 +66,11 @@ class SimCLR(object):
 
         for epoch_counter in range(self.args.epochs):
             for images, _ in tqdm(train_loader):
+                print(len(images), len(images[0]), images)
                 images = torch.cat(images, dim=0)
-
+                print(images.shape)
+                print("-----------------")
+                print(images[:, 0:2, :, :].shape) # This is it. The first two channels of the first batch of images.
                 images = images.to(self.args.device)
 
                 with autocast(enabled=self.args.fp16_precision):
